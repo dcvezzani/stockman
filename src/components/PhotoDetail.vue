@@ -12,8 +12,7 @@
 			</a>
 		</header>
 		<div class="card-content">
-			<div class="content">
-			</div>
+      <article :class="classNames" :style="imgUrl"> </article>
 		</div>
 	</div>
 
@@ -21,15 +20,19 @@
 
 <script>
 export default {
+  props: [ 'name' ],
   name: 'PhotoDetail',
   computed: {
 		classNames() {
-			return ['photo'];
+			return ['content', 'photo'];
+		},
+		imgUrl() {
+			return `background-image: url('/static/img/${this.name}.png');`
 		},
 	},
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App', 
     }
   }
 }

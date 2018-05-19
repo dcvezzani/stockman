@@ -16,7 +16,8 @@ export default new Router({
     {
       path: '/details',
       name: 'PhotoDetails',
-      component: PhotoDetails
+      component: PhotoDetails, 
+      props: {foo: true},
     }, 
     {
       path: '/hello',

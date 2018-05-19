@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <!-- img src="./assets/logo.png" -->
+    <div class="router-links">
+      <router-link to="/">StockMan</router-link> | 
+      <router-link to="/details">PhotoDetails</router-link>
+    </div>
+
     <router-view/>
   </div>
 </template>
@@ -19,5 +24,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.router-links{
+  margin-bottom: 1em;
 }
 </style>

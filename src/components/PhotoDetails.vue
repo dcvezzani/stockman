@@ -6,7 +6,7 @@
       <div class="tile is-parent is-vertical">
         <article class="tile is-child is-primary">
 
-					<PhotoDetail></PhotoDetail>
+					<PhotoDetail :name="$route.params.name"></PhotoDetail>
 
         </article>
       </div>
@@ -75,7 +75,10 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
-  }
+  }, 
+  mounted () {
+    console.log(this.$route.params.name);
+  },
 }
 </script>
 
