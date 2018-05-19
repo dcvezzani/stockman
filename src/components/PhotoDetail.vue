@@ -27,7 +27,7 @@ export default {
 			return ['content', 'photo'];
 		},
 		imgUrl() {
-			return `background-image: url('/static/img/${this.name}.png');`
+			return `background-image: url('/stock/static/img/${this.name}.png');`
 		},
 	},
   data () {
@@ -42,7 +42,6 @@ export default {
 <style scoped>
 	.card-content .content {
 		height: 200px;
-    background: lightblue url("../assets/1.png") no-repeat; 
 		background-size: cover;
 	}
 </style>

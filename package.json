@@ -5,8 +5,8 @@
   "author": "David Vezzani <david.vezzani@greenseedtech.com>",
   "private": true,
   "scripts": {
-    "open": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js --open",
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "open": "webpack-dev-server --content-base stock --inline --progress --config build/webpack.dev.conf.js --open",
+    "dev": "webpack-dev-server --content-base stock --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js"
   },

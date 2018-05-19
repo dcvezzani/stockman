@@ -13,7 +13,7 @@ export default {
 			return ['photo'];
 		},
 		imgUrl() {
-			return `background-image: url('/static/img/${this.name}.png');`
+			return `background-image: url('/stock/static/img/${this.name}.png');`
 		},
 		routePhoto() {
       return { name: 'PhotoDetails', params: { name: this.name }};
