@@ -11,6 +11,8 @@ require('../node_modules/bulma-extensions/bulma-accordion/dist/bulma-accordion.m
 
 Vue.config.productionTip = false
 
+window.Event = new Vue();
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -3,11 +3,11 @@
 	<div class="title-description">
 		<div class="field">
 			<p class="card-header-title">Title <span>(optional)</span></p>
-			<input class="input is-rounded" type="text" placeholder="Photo title">
+			<input ref="photoTitle" class="input is-rounded" type="text" placeholder="Photo title">
 		</div>
 		<div class="field">
 			<p class="card-header-title">Description <span>(max 200 words)</span> </p>
-			<textarea class="textarea" placeholder="Photo description"></textarea>
+			<textarea ref="photoDescription" class="textarea" placeholder="Photo description"></textarea>
 		</div>
 	</div>
 
@@ -25,7 +25,20 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
-  }
+  },
+  mounted () {
+    const self = this;
+
+    if (_.isNil(window.eventsLoaded)) {
+      window.eventsLoaded = true;
+      window.Event.$on("gatherFormData", (data) => {
+        self.$parent.sendMessage(data.resp, {
+          photoTitle: self.$refs.photoTitle.value, 
+          photoDescription: self.$refs.photoDescription.value
+        });
+      });
+    }
+  },
 }
 </script>
 

@@ -45,8 +45,13 @@
         <div class="content">
           <DetailAgencyStatus></DetailAgencyStatus>
         </div>
+        
+        <div class="content">
+          <a @click="savePhotoDetails" class="button "> Save </a>
+        </div>
       </div>
     </article>
+
   </div>
 </div>
 	</div>
@@ -76,8 +81,27 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   }, 
+  methods: {
+    sendMessage: function(name, data = {}) {
+      window.Event.$emit(name, data);
+    },
+    savePhotoDetails: function() {
+      this.sendMessage("gatherFormData", {resp: "formDataFetched"});
+      // save title
+      // save description
+      // save keywords
+      // save categories
+      // save additional info
+      // save release form
+      // save agency status
+    },
+  },
   mounted () {
-    console.log(this.$route.params.name);
+    // console.log(this.$route.params.name);
+    window.Event.$on("formDataFetched", (formData) => {
+      console.log({formData});
+    });
+    
   },
 }
 </script>

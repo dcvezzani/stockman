@@ -7,7 +7,16 @@
     </div>
     <div class="accordion-body">
       <div class="accordion-content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Aenean ac <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+	<div class="card">
+		<div class="card-content">
+			<div class="content">
+				<XSwitch label="Uploaded"></XSwitch>
+				<XSwitch label="Submitted"></XSwitch>
+				<XSwitch label="Accepted"></XSwitch>
+			</div>
+		</div>
+	</div>
+
       </div>
     </div>
   </article>
@@ -16,9 +25,11 @@
 
 <script>
 // import _ from 'lodash';
+import XSwitch from '@/components/XSwitch'
 
 export default {
   props: [ 'name', 'label' ],
+  components: { XSwitch },
   name: 'DetailAgencyStatusEntry',
   computed: {
 		accordionId() {
