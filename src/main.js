@@ -47,6 +47,8 @@ import { getField, updateField } from 'vuex-map-fields';
 
 const store = new Vuex.Store({
   state: {
+    socketIoLoading: false,
+    socketIoLoaded: false,
     count: 0, 
     id: -1,
     keywords: [],
@@ -69,12 +71,16 @@ const store = new Vuex.Store({
       return state.keywords;
     },
     state: state => state,
+    flags: flags => flags,
   },
   mutations: {
     updateField,
     setState: (state, payload) => {
       // console.log("in setState", Object.keys(state))
       Object.keys(state).forEach(key => state[key] = payload[key]);
+    },
+    setFlags: (flags, payload) => {
+      Object.keys(flags).forEach(key => flags[key] = payload[key]);
     },
   },
 })

@@ -1,5 +1,7 @@
 import socketIo from 'socket.io';
 import db from './db';
+import exif from './exiftool';
+import fs from 'fs';
 import _ from 'lodash';
 
 function reportError(err, msg) {
@@ -28,6 +30,19 @@ export const io = (server) => {
 		client.on('join', function(data) {
 			console.log(`join: ${data}`);
 			client.emit('joined', 'Greetings program');
+		});
+			
+		client.on('picture-orientation', function(payload) {
+      if (!payload.server) return;
+
+      const suffix = payload.image.replace(/http...localhost.8085.stock/, '');
+
+        exif.metadata(`..${suffix}`, function (err, metadata) {
+          if (err) return reportError(err, "Unable to get metadata from image");
+
+          console.log(JSON.stringify(metadata));
+          client.emit('picture-orientation', {client: true, image: payload.image, suffix, metadata});
+        });
 		});
 			
 		client.on('fetch-data', function(payload) {

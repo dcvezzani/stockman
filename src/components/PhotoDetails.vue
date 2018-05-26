@@ -68,18 +68,7 @@ import DetailAdditionalInfo from '@/components/DetailAdditionalInfo'
 import DetailAttachRelease from '@/components/DetailAttachRelease'
 import DetailAgencyStatus from '@/components/DetailAgencyStatus'
 import _ from 'lodash';
-
-function filterObj(obj, exclude=[]) {
-  let newObj = {};
-  const keys = Object.keys(obj);
-  keys.forEach(key => {
-    if (!_.includes(exclude, key)) {
-      newObj[key] = JSON.parse(JSON.stringify(obj[key]));
-    }
-  });
-
-  return newObj;
-}
+import { filterObj } from '../utils';
 
 export default {
   name: 'PhotoDetails',
@@ -94,11 +83,20 @@ export default {
     }
   }, 
   sockets:{
+    disconnect: function(){
+      this.$store.commit('setFlags', {socketIoLoading: false, socketIoLoaded: false});
+    },
     connect: function(){
+      if (this.$store.getters.flags.socketIoLoading || this.$store.getters.flags.socketIoLoaded) return;
+      
+      this.$store.commit('setFlags', {socketIoLoading: true});
       console.log('socket connected')
 		  this.$socket.emit('join', {server: true});
     },
     joined: function(msg){
+      if (!this.$store.getters.flags.socketIoLoading) return;
+
+      this.$store.commit('setFlags', {socketIoLoading: false, socketIoLoaded: true});
       console.log('>joined:', msg);
     },
     'fetch-data': function(payload){

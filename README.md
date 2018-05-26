@@ -8,6 +8,11 @@
 # install dependencies
 npm install
 
+- ensure exiftool is installed on os
+brew update
+brew install exiftool
+brew upgrade exiftool
+
 # serve with hot reload at localhost:8080
 npm run dev
 

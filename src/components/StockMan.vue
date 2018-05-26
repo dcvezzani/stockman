@@ -19,6 +19,7 @@
 
 <script>
 import Photo from '@/components/Photo'
+import { filterObj } from '../utils';
 
 export default {
   name: 'StockMan',
@@ -27,19 +28,41 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App', 
 			photos: [
-				{name: '1', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: '2', submitees: ['dreamstime', 'mostphotos', 'pond5']}, 
-				{name: '3', submitees: ['dreamstime', 'mostphotos', 'pond5']}, 
-				{name: '4', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: '5', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: '6', submitees: ['shutterstock', 'mostphotos', 'pond5']}, 
-				{name: '7', submitees: ['dreamstime', 'mostphotos', 'pond5']}, 
-				{name: '8', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: '9', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: '0', submitees: ['shutterstock', 'mostphotos', 'pond5']}, 
+				{name: 'http://localhost:8085/stock/photos/session01/IMG_4057.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: 'http://localhost:8085/stock/photos/session01/IMG_4058.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: 'http://localhost:8085/stock/photos/session01/IMG_4059.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: 'http://localhost:8085/stock/photos/session01/img_4060.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: 'http://localhost:8085/stock/photos/session01/img_4061.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: 'http://localhost:8085/stock/photos/session01/img_4062.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: 'http://localhost:8085/stock/photos/session01/img_4063.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: 'http://localhost:8085/stock/photos/session01/img_4064.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: 'http://localhost:8085/stock/photos/session01/img_4065.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
 			],
     }
-  }
+  },
+
+  sockets:{
+    disconnect: function(){
+      this.$store.commit('setFlags', {socketIoLoading: false, socketIoLoaded: false});
+    },
+    connect: function(){
+      if (this.$store.getters.flags.socketIoLoading || this.$store.getters.flags.socketIoLoaded) return;
+
+      this.$store.commit('setFlags', {socketIoLoading: true});
+      console.log('socket connected')
+		  this.$socket.emit('join', {server: true});
+    },
+    joined: function(msg){
+      if (!this.$store.getters.flags.socketIoLoading) return;
+    
+      this.$store.commit('setFlags', {socketIoLoading: false, socketIoLoaded: true});
+      console.log('>joined:', msg);
+    },
+  },
+
+  mounted () {
+  },
+  
 }
 </script>
 
@@ -70,7 +93,6 @@ article {
 	padding: 5px;
   /* box-shadow: 10px 10px 8px #888888; */
 	box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-	
 	
 }
 </style>
