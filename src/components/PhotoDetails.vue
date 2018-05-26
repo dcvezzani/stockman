@@ -92,9 +92,9 @@ export default {
 				// category: ['category 1', 'category 3', 'category 4'], // ['eee', 'fff', 'ggg', 'hhh', 'iii'], 
 				category: 'category 1', // ['eee', 'fff', 'ggg', 'hhh', 'iii'], 
 				releaseForm: "/stock/static/doc/releaseForm.pdf", 
-				editorial: true, 
-				illustration: false, 
-				adult: false, 
+				// editorial: true, 
+				// illustration: false, 
+				// adult: false, 
 			},
     }
   }, 
@@ -114,17 +114,6 @@ export default {
     },
   },
   mounted () {
-    // console.log(this.$route.params.name);
-
-    // window.Event.$on("formDataFetched", (formData) => {
-    //   console.log({formData});
-    // });
-
-		window.Event.$on('form-event', (data) => {
-		
-		});
-		
-    
   },
 }
 </script>

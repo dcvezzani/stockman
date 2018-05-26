@@ -21,15 +21,13 @@
 </template>
 
 <script>
+import { mapFields } from 'vuex-map-fields';
 import _ from 'lodash';
 
 export default {
   name: 'DetailKeywords',
-  sync:['keywords'],
   computed: {
-		classNames() {
-			return ['photo'];
-		},
+    ...mapFields([ 'keywords', ]),
 	},
   data () {
     return {

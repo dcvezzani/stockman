@@ -13,9 +13,20 @@
 		</header>
 		<div class="card-content">
 			<div class="content">
-				<XSwitch sync2="editorial" label="Editorial"></XSwitch>
-				<XSwitch sync2="illustration" label="Illustration"></XSwitch>
-				<XSwitch sync2="adult" label="Adult"></XSwitch>
+
+        <div class="field">
+          <input v-model="editorial" type="checkbox" id="editorial" class="switch is-rounded">
+          <label for="editorial">Editorial</label>
+        </div>			
+        <div class="field">
+          <input v-model="illustration" type="checkbox" id="illustration" class="switch is-rounded">
+          <label for="illustration">Illustration</label>
+        </div>			
+        <div class="field">
+          <input v-model="adult" type="checkbox" id="adult" class="switch is-rounded">
+          <label for="adult">Adult</label>
+        </div>			
+
 			</div>
 		</div>
 	</div>
@@ -23,17 +34,15 @@
 </template>
 
 <script>
-import XSwitch from '@/components/XSwitch'
+import { mapFields } from 'vuex-map-fields';
 
 export default {
-  components: { XSwitch },
   name: 'DetailAdditionalInfo',
-  // sync:['editorial', 'illustration', 'adult'],
   computed: {
-		classNames() {
-			return ['photo'];
-		},
+    ...mapFields([ 'editorial', 'illustration', 'adult', ]),
 	},
+  methods: {
+  },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
@@ -44,5 +53,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+	.field {
+		text-align: left; 
+	}
 </style>

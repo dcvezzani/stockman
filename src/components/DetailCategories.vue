@@ -13,8 +13,6 @@
 		</header>
 		<div class="card-content">
 			<div class="content">
-				<!-- XCheck v-for="category in categories" :key="category.name" :label="category.name"></XCheck -->
-
 				<div class="field">
 					<div class="select" style="z-index: 1000">
 						<select v-model="category" >
@@ -30,17 +28,13 @@
 </template>
 
 <script>
+import { mapFields } from 'vuex-map-fields';
 import _ from 'lodash';
-import XCheck from '@/components/XCheck'
 
 export default {
   name: 'DetailCategories',
-  sync:['category'],
-  components: { XCheck },
   computed: {
-		classNames() {
-			return ['photo'];
-		},
+    ...mapFields([ 'category', ]),
 	},
   data () {
     return {

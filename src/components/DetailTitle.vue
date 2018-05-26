@@ -14,13 +14,12 @@
 </template>
 
 <script>
+import { mapFields } from 'vuex-map-fields';
+
 export default {
   name: 'DetailTitle',
-  sync:['title','description'],
   computed: {
-		classNames() {
-			return ['photo'];
-		},
+    ...mapFields([ 'title', 'description', ]),
 	},
   data () {
     return {
@@ -28,17 +27,6 @@ export default {
     }
   },
   mounted () {
-    const self = this;
-
-    if (_.isNil(window.eventsLoaded)) {
-      window.eventsLoaded = true;
-      window.Event.$on("gatherFormData", (data) => {
-        self.$parent.sendMessage(data.resp, {
-          photoTitle: self.$refs.photoTitle.value, 
-          photoDescription: self.$refs.photoDescription.value
-        });
-      });
-    }
   },
 }
 </script>
