@@ -13,7 +13,7 @@
 		</header>
 		<div class="card-content">
 			<div class="content">
-        <textarea ref="keywordsTags" class="textarea" placeholder="Keywords & tags"></textarea>
+        <textarea v-model="keywords" ref="keywordsTags" class="textarea" placeholder="Keywords & tags"></textarea>
 			</div>
 		</div>
 	</div>
@@ -25,6 +25,7 @@ import _ from 'lodash';
 
 export default {
   name: 'DetailKeywords',
+  sync:['keywords'],
   computed: {
 		classNames() {
 			return ['photo'];

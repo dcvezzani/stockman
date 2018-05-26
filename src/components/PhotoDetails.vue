@@ -12,24 +12,24 @@
       </div>
       <div class="tile is-parent is-vertical">
         <article class="tile is-child is-primary">
-					<DetailTitle></DetailTitle>
+					<DetailTitle :title.sync="photo.title" :description.sync="photo.description"></DetailTitle>
         </article>
       </div>
     </div>
     <div class="tile is-parent">
       <article class="tile is-child is-danger">
         <div class="content">
-					<DetailKeywords></DetailKeywords>
+					<DetailKeywords :keywords.sync="photo.keywords"></DetailKeywords>
         </div>
       </article>
     </div>
     <div class="tile">
       <div class="tile is-parent is-vertical">
         <article class="tile is-child is-primary">
-					<DetailCategories></DetailCategories>
+					<DetailCategories :category.sync="photo.category"></DetailCategories>
         </article>
         <article class="tile is-child is-primary">
-					<DetailAttachRelease></DetailAttachRelease>
+					<DetailAttachRelease :releaseForm.sync="photo.releaseForm"></DetailAttachRelease>
         </article>
       </div>
       <div class="tile is-parent is-vertical">
@@ -75,10 +75,27 @@ export default {
 		classNames() {
 			return ['photo'];
 		},
+		image() {
+			return `/stock/static/img/${this.name}.png`
+		}, 
 	},
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App', 
+			fields: ["image", "keywords", "title", "description", "agencies", "categories", "releaseForm", "editorial", "illustration", "adult"], 
+			photo: {
+				// image: "0.png",
+				keywords: ['one', 'two', 'three'],
+				title: "Broccoli is great!", 
+				description: " Dolor quae recusandae vitae hic magni. Iure tempore error assumenda laudantium quidem Architecto maxime possimus facere dicta eligendi Exercitationem a ipsum itaque tempore eaque possimus. Dignissimos nesciunt officiis dicta numquam!  ", 
+				agencies: ['aaa', 'bbb', 'ccc', 'ddd'], 
+				// category: ['category 1', 'category 3', 'category 4'], // ['eee', 'fff', 'ggg', 'hhh', 'iii'], 
+				category: 'category 1', // ['eee', 'fff', 'ggg', 'hhh', 'iii'], 
+				releaseForm: "/stock/static/doc/releaseForm.pdf", 
+				editorial: true, 
+				illustration: false, 
+				adult: false, 
+			},
     }
   }, 
   methods: {
@@ -98,9 +115,15 @@ export default {
   },
   mounted () {
     // console.log(this.$route.params.name);
-    window.Event.$on("formDataFetched", (formData) => {
-      console.log({formData});
-    });
+
+    // window.Event.$on("formDataFetched", (formData) => {
+    //   console.log({formData});
+    // });
+
+		window.Event.$on('form-event', (data) => {
+		
+		});
+		
     
   },
 }

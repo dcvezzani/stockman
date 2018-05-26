@@ -1,7 +1,7 @@
 <template>
 
 	<div class="field">
-		<input :id="switchId" type="checkbox" :name="switchId" class="switch is-rounded" :checked="checked">
+		<input @click="toggleCheckbox" :id="switchId" type="checkbox" :name="switchId" class="switch is-rounded" :checked="checked">
 		<label :for="switchId">{{ label }}</label>
 	</div>			
 
@@ -11,7 +11,7 @@
 import _ from 'lodash';
 
 export default {
-  props: [ 'name', 'label' ],
+  props: [ 'name', 'label', 'sync2' ],
   name: 'XSwitch',
   computed: {
 		switchId() {
@@ -26,7 +26,14 @@ export default {
       msg: 'Welcome to Your Vue.js App', 
 			checked: false,
     }
-  }
+  }, 
+	methods: {
+		toggleCheckbox: function(evt) {
+			let data = {};
+			data[`${this.sync2}`] = this.checked;
+			window.Event.$emit('form-event', data);
+		},
+	}
 }
 </script>
 

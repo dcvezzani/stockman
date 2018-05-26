@@ -3,11 +3,11 @@
 	<div class="title-description">
 		<div class="field">
 			<p class="card-header-title">Title <span>(optional)</span></p>
-			<input ref="photoTitle" class="input is-rounded" type="text" placeholder="Photo title">
+			<input v-model="title" ref="photoTitle" class="input is-rounded" type="text" placeholder="Photo title">
 		</div>
 		<div class="field">
 			<p class="card-header-title">Description <span>(max 200 words)</span> </p>
-			<textarea ref="photoDescription" class="textarea" placeholder="Photo description"></textarea>
+			<textarea v-model="description" ref="photoDescription" class="textarea" placeholder="Photo description"></textarea>
 		</div>
 	</div>
 
@@ -16,6 +16,7 @@
 <script>
 export default {
   name: 'DetailTitle',
+  sync:['title','description'],
   computed: {
 		classNames() {
 			return ['photo'];

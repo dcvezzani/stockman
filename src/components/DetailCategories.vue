@@ -16,17 +16,9 @@
 				<!-- XCheck v-for="category in categories" :key="category.name" :label="category.name"></XCheck -->
 
 				<div class="field">
-					<div class="select is-rounded">
-						<select>
-							<option v-for="category in categories" :key="category.name">{{ category.name }}</option>
-						</select>
-					</div>			
-				</div>			
-				
-				<div class="field">
-					<div class="select is-rounded">
-						<select>
-							<option v-for="category in categories" :key="category.name">{{ category.name }}</option>
+					<div class="select" style="z-index: 1000">
+						<select v-model="category" >
+							<option v-for="cat in categories" :value="cat.name" :key="cat.name">{{ cat.name }}</option>
 						</select>
 					</div>			
 				</div>			
@@ -43,6 +35,7 @@ import XCheck from '@/components/XCheck'
 
 export default {
   name: 'DetailCategories',
+  sync:['category'],
   components: { XCheck },
   computed: {
 		classNames() {

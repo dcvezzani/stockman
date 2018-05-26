@@ -13,9 +13,9 @@
 		</header>
 		<div class="card-content">
 			<div class="content">
-				<XSwitch label="Editorial"></XSwitch>
-				<XSwitch label="Illustration"></XSwitch>
-				<XSwitch label="Adult"></XSwitch>
+				<XSwitch sync2="editorial" label="Editorial"></XSwitch>
+				<XSwitch sync2="illustration" label="Illustration"></XSwitch>
+				<XSwitch sync2="adult" label="Adult"></XSwitch>
 			</div>
 		</div>
 	</div>
@@ -28,6 +28,7 @@ import XSwitch from '@/components/XSwitch'
 export default {
   components: { XSwitch },
   name: 'DetailAdditionalInfo',
+  // sync:['editorial', 'illustration', 'adult'],
   computed: {
 		classNames() {
 			return ['photo'];

@@ -26,7 +26,9 @@
 				</span>
 			</span>
 			<span class="file-name">
-				Screen Shot 2017-07-29 at 15.54.25.png
+				<div class="field">
+					<input v-model="releaseForm" ref="photoTitle" class="input " type="text" placeholder="release.pdf">
+				</div>
 			</span>
 		</label>
 	</div>
@@ -42,6 +44,7 @@
 export default {
   props: [ 'name', 'label' ],
   name: 'DetailAttachRelease',
+  sync:['releaseForm'],
   computed: {
 		classNames() {
 			return ['photo'];
@@ -59,5 +62,8 @@ export default {
 <style scoped>
 	label {
 		margin: 0 auto;
+	}
+	.file-name input {
+		font-size: 8pt;
 	}
 </style>
