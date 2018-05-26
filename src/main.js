@@ -4,6 +4,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App'
 import router from './router'
+import VueSocketio from 'vue-socket.io';
+import io from 'socket.io-client';
 
 // Require the main Sass manifest file
 require('./assets/sass/main.scss');
@@ -12,6 +14,7 @@ require('../node_modules/bulma-extensions/bulma-accordion/dist/bulma-accordion.m
 
 Vue.config.productionTip = false
 Vue.use(Vuex);
+Vue.use(VueSocketio, io('http://127.0.0.1:3000', { path: '/io'}));
 
 window.Event = new Vue();
 
@@ -45,25 +48,34 @@ import { getField, updateField } from 'vuex-map-fields';
 const store = new Vuex.Store({
   state: {
     count: 0, 
-    keywords: ['one', 'two', 'three'],
-    title: "Broccoli is great!", 
-    description: " Dolor quae recusandae vitae hic magni. Iure tempore error assumenda laudantium quidem Architecto maxime possimus facere dicta eligendi Exercitationem a ipsum itaque tempore eaque possimus. Dignissimos nesciunt officiis dicta numquam!  ", 
-    agencies: ['aaa', 'bbb', 'ccc', 'ddd'], 
+    id: -1,
+    keywords: [],
+    title: "", 
+    description: "",
+    agencies: [], 
     // category: ['category 1', 'category 3', 'category 4'], // ['eee', 'fff', 'ggg', 'hhh', 'iii'], 
-    category: 'category 1', // ['eee', 'fff', 'ggg', 'hhh', 'iii'], 
-    releaseForm: "/stock/static/doc/releaseForm.pdf", 
-    editorial: true, 
+    category: '', // ['eee', 'fff', 'ggg', 'hhh', 'iii'], 
+    releaseForm: "", 
+    editorial: false, 
     illustration: false, 
     adult: false, 
   },
   getters: {
     getField,
-    // editorial: state => state.editorial,
+    keywordsAsArray: state => {
+      if (typeof state.keywords === 'string') {
+        return state.keywords.split(/ *, */);
+      }
+      return state.keywords;
+    },
+    state: state => state,
   },
   mutations: {
     updateField,
-    // editorial: (state, payload) => state.editorial = payload.editorial, 
-    
+    setState: (state, payload) => {
+      // console.log("in setState", Object.keys(state))
+      Object.keys(state).forEach(key => state[key] = payload[key]);
+    },
   },
 })
 

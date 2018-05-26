@@ -12,24 +12,24 @@
       </div>
       <div class="tile is-parent is-vertical">
         <article class="tile is-child is-primary">
-					<DetailTitle :title.sync="photo.title" :description.sync="photo.description"></DetailTitle>
+					<DetailTitle></DetailTitle>
         </article>
       </div>
     </div>
     <div class="tile is-parent">
       <article class="tile is-child is-danger">
         <div class="content">
-					<DetailKeywords :keywords.sync="photo.keywords"></DetailKeywords>
+					<DetailKeywords></DetailKeywords>
         </div>
       </article>
     </div>
     <div class="tile">
       <div class="tile is-parent is-vertical">
         <article class="tile is-child is-primary">
-					<DetailCategories :category.sync="photo.category"></DetailCategories>
+					<DetailCategories></DetailCategories>
         </article>
         <article class="tile is-child is-primary">
-					<DetailAttachRelease :releaseForm.sync="photo.releaseForm"></DetailAttachRelease>
+					<DetailAttachRelease></DetailAttachRelease>
         </article>
       </div>
       <div class="tile is-parent is-vertical">
@@ -49,6 +49,7 @@
         <div class="content">
           <a @click="savePhotoDetails" class="button "> Save </a>
         </div>
+        <div id="toast" ref="test" class="content">{{toast}}</div>
       </div>
     </article>
 
@@ -66,54 +67,66 @@ import DetailCategories from '@/components/DetailCategories'
 import DetailAdditionalInfo from '@/components/DetailAdditionalInfo'
 import DetailAttachRelease from '@/components/DetailAttachRelease'
 import DetailAgencyStatus from '@/components/DetailAgencyStatus'
+import _ from 'lodash';
+
+function filterObj(obj, exclude=[]) {
+  let newObj = {};
+  const keys = Object.keys(obj);
+  keys.forEach(key => {
+    if (!_.includes(exclude, key)) {
+      newObj[key] = JSON.parse(JSON.stringify(obj[key]));
+    }
+  });
+
+  return newObj;
+}
 
 export default {
-  // props: [ 'name' ],
   name: 'PhotoDetails',
   components: { PhotoDetail, DetailTitle, DetailDescription, DetailKeywords, DetailCategories, DetailAdditionalInfo, DetailAttachRelease, DetailAgencyStatus },
   computed: {
-		classNames() {
-			return ['photo'];
-		},
-		image() {
-			return `/stock/static/img/${this.name}.png`
-		}, 
 	},
   data () {
     return {
       msg: 'Welcome to Your Vue.js App', 
-			fields: ["image", "keywords", "title", "description", "agencies", "categories", "releaseForm", "editorial", "illustration", "adult"], 
-			photo: {
-				// image: "0.png",
-				keywords: ['one', 'two', 'three'],
-				title: "Broccoli is great!", 
-				description: " Dolor quae recusandae vitae hic magni. Iure tempore error assumenda laudantium quidem Architecto maxime possimus facere dicta eligendi Exercitationem a ipsum itaque tempore eaque possimus. Dignissimos nesciunt officiis dicta numquam!  ", 
-				agencies: ['aaa', 'bbb', 'ccc', 'ddd'], 
-				// category: ['category 1', 'category 3', 'category 4'], // ['eee', 'fff', 'ggg', 'hhh', 'iii'], 
-				category: 'category 1', // ['eee', 'fff', 'ggg', 'hhh', 'iii'], 
-				releaseForm: "/stock/static/doc/releaseForm.pdf", 
-				// editorial: true, 
-				// illustration: false, 
-				// adult: false, 
-			},
+      toast: '',
+      saveLocked: false,
     }
   }, 
-  methods: {
-    sendMessage: function(name, data = {}) {
-      window.Event.$emit(name, data);
+  sockets:{
+    connect: function(){
+      console.log('socket connected')
+		  this.$socket.emit('join', {server: true});
     },
+    joined: function(msg){
+      console.log('>joined:', msg);
+    },
+    'fetch-data': function(payload){
+      if (!payload.client) return;
+      const data = filterObj(payload, ['client']);
+      console.log('>fetch-data:', payload);
+      this.$store.commit('setState', data);
+    },
+    'save-data': function(payload){
+      if (!payload.client) return;
+      const data = filterObj(payload, ['client']);
+      console.log('>save-data:', payload);
+      this.toast = "Photo was saved";
+      this.saveLocked = false;
+      setTimeout(() => { this.toast = ""; }, 2000);
+    },
+  },
+  methods: {
     savePhotoDetails: function() {
-      this.sendMessage("gatherFormData", {resp: "formDataFetched"});
-      // save title
-      // save description
-      // save keywords
-      // save categories
-      // save additional info
-      // save release form
-      // save agency status
+      if (this.saveLocked === false) {
+        this.saveLocked = true;
+        const data = this.$store.getters.state;
+        this.$socket.emit('save-data', {server: true, ...data});
+      }
     },
   },
   mounted () {
+		this.$socket.emit('fetch-data', {server: true});
   },
 }
 </script>

@@ -41,14 +41,13 @@
 </template>
 
 <script>
+import { mapFields } from 'vuex-map-fields';
+
 export default {
   props: [ 'name', 'label' ],
   name: 'DetailAttachRelease',
-  sync:['releaseForm'],
   computed: {
-		classNames() {
-			return ['photo'];
-		},
+    ...mapFields([ 'releaseForm', ]),
 	},
   data () {
     return {
