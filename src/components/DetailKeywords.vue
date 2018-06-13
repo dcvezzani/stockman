@@ -13,7 +13,7 @@
 		</header>
 		<div class="card-content">
 			<div class="content">
-        <textarea v-model="keywords" ref="keywordsTags" class="textarea" placeholder="Keywords & tags"></textarea>
+        <textarea v-bind:value="keywords" v-on:input="$emit('input', $event.target.value)" class="textarea" placeholder="Keywords & tags"></textarea>
 			</div>
 		</div>
 	</div>
@@ -21,13 +21,12 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields';
 import _ from 'lodash';
 
 export default {
+  props: ['keywords'], 
   name: 'DetailKeywords',
   computed: {
-    ...mapFields([ 'keywords', ]),
 	},
   data () {
     return {
@@ -35,16 +34,6 @@ export default {
     }
   },
   mounted () {
-    const self = this;
-
-    if (_.isNil(window.eventsLoaded)) {
-      window.eventsLoaded = true;
-      window.Event.$on("gatherFormData", (data) => {
-        self.$parent.sendMessage(data.resp, {
-          keywordsTags: self.$refs.keywordsTags.value,
-        });
-      });
-    }
   },
 }
 </script>

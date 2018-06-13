@@ -16,7 +16,8 @@
 
 	<div class="file has-name is-boxed">
 		<label class="file-label">
-			<input class="file-input" type="file" name="resume">
+			<input v-bind:releaseForm="releaseForm" v-on:input="$emit('input', $event.target.files[0])" class="file-input" type="file">
+			
 			<span class="file-cta">
 				<span class="file-icon">
 					<i class="fas fa-upload"></i>
@@ -26,9 +27,7 @@
 				</span>
 			</span>
 			<span class="file-name">
-				<div class="field">
-					<input v-model="releaseForm" ref="photoTitle" class="input " type="text" placeholder="release.pdf">
-				</div>
+{{ releaseFormName }}
 			</span>
 		</label>
 	</div>
@@ -41,13 +40,14 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields';
 
 export default {
-  props: [ 'name', 'label' ],
+  props: ['releaseForm'],
   name: 'DetailAttachRelease',
   computed: {
-    ...mapFields([ 'releaseForm', ]),
+		releaseFormName: function() {
+			return (this.releaseForm) ? this.releaseForm.name : "n/a";
+		}
 	},
   data () {
     return {
@@ -62,7 +62,7 @@ export default {
 	label {
 		margin: 0 auto;
 	}
-	.file-name input {
-		font-size: 8pt;
+	.file-name {
+		text-align: center;
 	}
 </style>

@@ -15,15 +15,15 @@
 			<div class="content">
 
         <div class="field">
-          <input v-model="editorial" type="checkbox" id="editorial" class="switch is-rounded">
+          <input :checked="photo.editorial" v-on:click="$emit('input', {value: $event.target.checked, which: 'editorial'})" type="checkbox" id="editorial" class="switch is-rounded">
           <label for="editorial">Editorial</label>
         </div>			
         <div class="field">
-          <input v-model="illustration" type="checkbox" id="illustration" class="switch is-rounded">
+          <input :checked="photo.illustration" v-on:click="$emit('input', {value: $event.target.checked, which: 'illustration'})" type="checkbox" id="editorial" class="switch is-rounded">
           <label for="illustration">Illustration</label>
         </div>			
         <div class="field">
-          <input v-model="adult" type="checkbox" id="adult" class="switch is-rounded">
+          <input :checked="photo.adult" v-on:click="$emit('input', {value: $event.target.checked, which: 'adult'})" type="checkbox" id="editorial" class="switch is-rounded">
           <label for="adult">Adult</label>
         </div>			
 
@@ -34,12 +34,10 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields';
-
 export default {
+	props: ['photo'],
   name: 'DetailAdditionalInfo',
   computed: {
-    ...mapFields([ 'editorial', 'illustration', 'adult', ]),
 	},
   methods: {
   },

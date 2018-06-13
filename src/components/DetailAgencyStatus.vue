@@ -1,16 +1,23 @@
 <template>
 
 <section class="accordions">
-	<DetailAgencyStatusEntry v-for="agency in agencies" :key="agency.name" :label="agency.name"></DetailAgencyStatusEntry>
 
-	<div class="field add-new-agency has-addons">
-		<p class="control">
-			<input class="input is-rounded" type="text" placeholder="Add new agency">
-		</p>
-		<p class="control">
-			<a class="button is-rounded is-primary">Add</a>
-		</p>
-	</div>
+<BulmaAccordion
+:dropdown="true"
+:icon="'caret'"
+:caretAnimation="{
+    duration: '.6s',
+    timerFunc: 'ease-in-out',
+}"
+:slide="{
+    duration: '.9s',
+    timerFunc: 'ease',
+}"
+> <!-- The wrapper component for all the items -->
+		<DetailAgencyStatusEntry v-for="agency in agencies" :label="agency.name" :key="agency.name"></DetailAgencyStatusEntry>
+</BulmaAccordion>
+
+
 
 </section>
 
@@ -18,12 +25,15 @@
 
 <script>
 import _ from 'lodash';
+import { BulmaAccordion, BulmaAccordionItem } from 'vue-bulma-accordion'
 import DetailAgencyStatusEntry from '@/components/DetailAgencyStatusEntry'
+import XSwitch from '@/components/XSwitch'
 
 export default {
   // props: [ 'name', 'label' ],
   name: 'DetailAgencyStatus',
-  components: { DetailAgencyStatusEntry },
+  components: { DetailAgencyStatusEntry, BulmaAccordion, BulmaAccordionItem, XSwitch },
+	
   computed: {
 		// checkId() {
 		// 	return ((!_.isEmpty(this.name)) ? this.name : this.label.toLowerCase().replace(/ +/g, '-'));
@@ -46,9 +56,6 @@ export default {
     }
   }, 
 	mounted () {
-		this.$nextTick(() => {
-			require('../../node_modules/bulma-extensions/bulma-accordion/dist/bulma-accordion.min.js');
-		});
 	},
 }
 </script>
