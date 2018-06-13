@@ -19,11 +19,11 @@
           <label for="editorial">Editorial</label>
         </div>			
         <div class="field">
-          <input :checked="photo.illustration" v-on:click="$emit('input', {value: $event.target.checked, which: 'illustration'})" type="checkbox" id="editorial" class="switch is-rounded">
+          <input :checked="photo.illustration" v-on:click="$emit('input', {value: $event.target.checked, which: 'illustration'})" type="checkbox" id="illustration" class="switch is-rounded">
           <label for="illustration">Illustration</label>
         </div>			
         <div class="field">
-          <input :checked="photo.adult" v-on:click="$emit('input', {value: $event.target.checked, which: 'adult'})" type="checkbox" id="editorial" class="switch is-rounded">
+          <input :checked="photo.adult" v-on:click="$emit('input', {value: $event.target.checked, which: 'adult'})" type="checkbox" id="adult" class="switch is-rounded">
           <label for="adult">Adult</label>
         </div>			
 

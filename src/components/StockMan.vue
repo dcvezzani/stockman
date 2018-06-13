@@ -12,13 +12,14 @@
 		</div>
 
 		<div class="container">
-			<Photo v-for="photo in photos" :key="photo.name" :name="photo.name"></Photo>
+			<Photo v-for="photo in photos" :key="photo.id" :photo="photo"></Photo>
 		</div>
   </div>
 </template>
 
 <script>
 import Photo from '@/components/Photo'
+import { fetchPhotos, } from './../models/photos';
 
 export default {
   name: 'StockMan',
@@ -26,7 +27,8 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App', 
-			photos: [
+			photos: [], 
+			xphotos: [
 				{name: '1', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
 				{name: '2', submitees: ['dreamstime', 'mostphotos', 'pond5']}, 
 				{name: '3', submitees: ['dreamstime', 'mostphotos', 'pond5']}, 
@@ -39,7 +41,15 @@ export default {
 				{name: '0', submitees: ['shutterstock', 'mostphotos', 'pond5']}, 
 			],
     }
-  }
+  }, 
+	mounted () {
+		fetchPhotos((err, photos) => {
+			if (err) return console.error("Unable to load photo details", err);
+
+			this.photos = photos;
+			console.log("Successfully loaded list of photos", photos);
+		});
+	},
 }
 </script>
 

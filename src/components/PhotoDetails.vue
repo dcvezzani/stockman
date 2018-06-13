@@ -6,7 +6,7 @@
       <div class="tile is-parent is-vertical">
         <article class="tile is-child is-primary">
 
-					<PhotoDetail :name="$route.params.name"></PhotoDetail>
+					<PhotoDetail :location="photo.location"></PhotoDetail>
 
         </article>
       </div>
@@ -51,7 +51,7 @@
         </div>
         
         <div class="content">
-          <a class="button "> Save </a>
+          <a @click="updatePhoto" class="button "> Save </a>
         </div>
         <div id="toast" ref="test" class="content">{{toast}}</div>
       </div>
@@ -73,6 +73,7 @@ import DetailAdditionalInfo from '@/components/DetailAdditionalInfo'
 import DetailAttachRelease from '@/components/DetailAttachRelease'
 import DetailAgencyStatus from '@/components/DetailAgencyStatus'
 import _ from 'lodash';
+import { fetchPhoto, updatePhoto } from './../models/photos';
 
 function filterObj(obj, exclude=[]) {
   let newObj = {};
@@ -86,6 +87,8 @@ function filterObj(obj, exclude=[]) {
   return newObj;
 }
 
+// const fetchPhoto = (callback) => { return callback(null, {}); };
+
 export default {
   name: 'PhotoDetails',
   components: { PhotoDetail, DetailTitle, DetailDescription, DetailKeywords, DetailCategories, DetailAdditionalInfo, DetailAttachRelease, DetailAgencyStatus, BulmaAccordion, BulmaAccordionItem },
@@ -94,11 +97,15 @@ export default {
 			const {title, description} = this.photo;
 			return {title, description}
 		},
+		releaseFormName: function(){
+			return releaseForm.name;
+		},
 	},
   data () {
     return {
 			toast: null, 
 			photo: {
+				id: 1,
 				keywords: "one,two,three,four",
 				title: "Broccoli",
 				description: "Some good green stuff",
@@ -107,6 +114,8 @@ export default {
 				illustration: true,
 				adult: false,
 				releaseForm: {name: "monopoly-pieces.key"},
+				releaseFormLocation: null,
+				location: '/stock/static/img/4.png',
 			}, 
 			availableCategories: [],
     }
@@ -121,9 +130,24 @@ export default {
     // },
   },
   methods: {
+		updatePhoto: function() {
+			updatePhoto(this.photo.id, this.photo, (err) => {
+				if (err) return console.error("Unable to update photo details");
+
+				console.log("Successfully updated photo details", this.photo);
+			});
+		},
   },
   mounted () {
 		this.availableCategories = _.range(10).map(idx => { return `category ${idx}`; });
+
+		console.log("this.$route.params", this.$route.params.id);
+		fetchPhoto(this.$route.params.id, (err, photo) => {
+			if (err) return console.error("Unable to load photo details", err);
+
+			this.photo = photo;
+			console.log("Successfully loaded photo details", this.$route.params.id, photo);
+		});
   },
 }
 </script>

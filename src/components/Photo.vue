@@ -6,17 +6,17 @@
 
 <script>
 export default {
-  props: [ 'name' ],
+  props: [ 'photo' ],
   name: 'StockMan',
   computed: {
 		classNames() {
 			return ['photo'];
 		},
 		imgUrl() {
-			return `background-image: url('/stock/static/img/${this.name}.png');`
+			return `background-image: url('${this.photo.location}');`
 		},
 		routePhoto() {
-      return { name: 'PhotoDetails', params: { name: this.name }};
+      return { name: 'PhotoDetails', params: { id: this.photo.id }};
 		},
 	},
   data () {

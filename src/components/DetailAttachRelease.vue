@@ -53,7 +53,12 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App', 
     }
-  }
+  }, 
+	methods: {
+		checkThis: function($event) {
+			console.log("checkThis", $event);
+		}
+	},
 }
 </script>
 
