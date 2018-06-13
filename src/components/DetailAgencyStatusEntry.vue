@@ -1,35 +1,29 @@
 <template>
 
-  <article :class="classNames">
-    <div class="accordion-header toggle">
-      <p>{{ label }}</p>
-      <button class="toggle" aria-label="toggle"></button>
-    </div>
-    <div class="accordion-body">
-      <div class="accordion-content">
-	<div class="card">
-		<div class="card-content">
-			<div class="content">
-				<XSwitch label="Uploaded"></XSwitch>
-				<XSwitch label="Submitted"></XSwitch>
-				<XSwitch label="Accepted"></XSwitch>
-			</div>
-		</div>
-	</div>
-
-      </div>
-    </div>
-  </article>
-
+    <BulmaAccordionItem>
+        <p slot="title">{{ label }}</p>
+				<div slot="content" class="card">
+					<div class="card-content">
+						<div class="content">
+							<XSwitch label="Uploaded"></XSwitch>
+							<XSwitch label="Submitted"></XSwitch>
+							<XSwitch label="Accepted"></XSwitch>
+						</div>
+					</div>
+				</div>
+        <button v-if="label === 'Fotolia'" class="button is-primary" slot="footer">Click Me!</button>
+    </BulmaAccordionItem> <!-- add as many of these items as you need - fill them with content via the slots -->
+		
 </template>
 
 <script>
 // import _ from 'lodash';
+import { BulmaAccordionItem } from 'vue-bulma-accordion'
 import XSwitch from '@/components/XSwitch'
 
 export default {
   props: [ 'name', 'label' ],
-  components: { XSwitch },
+  components: { BulmaAccordionItem, XSwitch },
   name: 'DetailAgencyStatusEntry',
   computed: {
 		accordionId() {

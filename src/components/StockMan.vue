@@ -12,7 +12,7 @@
 		</div>
 
 		<div class="container">
-			<Photo v-for="photo in photos" :key="photo.name" :name="photo.name"></Photo>
+			<Photo v-for="photo in photos" :key="photo.id" :photo="photo"></Photo>
 		</div>
   </div>
 </template>
@@ -20,6 +20,7 @@
 <script>
 import Photo from '@/components/Photo'
 import { filterObj } from '../utils';
+import { fetchPhotos, } from './../models/photos';
 
 export default {
   name: 'StockMan',
@@ -27,42 +28,29 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App', 
-			photos: [
-				{name: 'http://localhost:8085/stock/photos/session01/IMG_4057.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: 'http://localhost:8085/stock/photos/session01/IMG_4058.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: 'http://localhost:8085/stock/photos/session01/IMG_4059.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: 'http://localhost:8085/stock/photos/session01/img_4060.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: 'http://localhost:8085/stock/photos/session01/img_4061.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: 'http://localhost:8085/stock/photos/session01/img_4062.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: 'http://localhost:8085/stock/photos/session01/img_4063.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: 'http://localhost:8085/stock/photos/session01/img_4064.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
-				{name: 'http://localhost:8085/stock/photos/session01/img_4065.jpg', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+			photos: [], 
+			xphotos: [
+				{name: '1', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: '2', submitees: ['dreamstime', 'mostphotos', 'pond5']}, 
+				{name: '3', submitees: ['dreamstime', 'mostphotos', 'pond5']}, 
+				{name: '4', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: '5', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: '6', submitees: ['shutterstock', 'mostphotos', 'pond5']}, 
+				{name: '7', submitees: ['dreamstime', 'mostphotos', 'pond5']}, 
+				{name: '8', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: '9', submitees: ['dreamstime', 'istock', 'fotolia', 'shutterstock', 'mostphotos', 'pond5']}, 
+				{name: '0', submitees: ['shutterstock', 'mostphotos', 'pond5']}, 
 			],
     }
-  },
+  }, 
+	mounted () {
+		fetchPhotos((err, photos) => {
+			if (err) return console.error("Unable to load photo details", err);
 
-  sockets:{
-    disconnect: function(){
-      this.$store.commit('setFlags', {socketIoLoading: false, socketIoLoaded: false});
-    },
-    connect: function(){
-      if (this.$store.getters.flags.socketIoLoading || this.$store.getters.flags.socketIoLoaded) return;
-
-      this.$store.commit('setFlags', {socketIoLoading: true});
-      console.log('socket connected')
-		  this.$socket.emit('join', {server: true});
-    },
-    joined: function(msg){
-      if (!this.$store.getters.flags.socketIoLoading) return;
-    
-      this.$store.commit('setFlags', {socketIoLoading: false, socketIoLoaded: true});
-      console.log('>joined:', msg);
-    },
-  },
-
-  mounted () {
-  },
-  
+			this.photos = photos;
+			console.log("Successfully loaded list of photos", photos);
+		});
+	},
 }
 </script>
 

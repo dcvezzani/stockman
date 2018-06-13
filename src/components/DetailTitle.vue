@@ -3,23 +3,22 @@
 	<div class="title-description">
 		<div class="field">
 			<p class="card-header-title">Title <span>(optional)</span></p>
-			<input v-model="title" ref="photoTitle" class="input is-rounded" type="text" placeholder="Photo title">
+			<input v-bind:value="title" v-on:input="$emit('input', {which: 'title', value: $event.target.value})" class="input is-rounded" type="text" placeholder="Photo title">
 		</div>
 		<div class="field">
 			<p class="card-header-title">Description <span>(max 200 words)</span> </p>
-			<textarea v-model="description" ref="photoDescription" class="textarea" placeholder="Photo description"></textarea>
+			<textarea v-bind:value="description" v-on:input="$emit('input', {which: 'description', value: $event.target.value})" class="textarea" placeholder="Photo description"></textarea>
 		</div>
 	</div>
 
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields';
 
 export default {
+	props: [ 'title', 'description', ],
   name: 'DetailTitle',
   computed: {
-    ...mapFields([ 'title', 'description', ]),
 	},
   data () {
     return {

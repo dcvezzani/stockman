@@ -20,14 +20,14 @@
 
 <script>
 export default {
-  props: [ 'name' ],
+  props: [ 'name', 'location' ],
   name: 'PhotoDetail',
   computed: {
-		classNames() {
+		classNames: function() {
 			return ['content', 'photo'];
 		},
-		imgUrl() {
-			return `background-image: url('/stock/static/img/${this.name}.png');`
+		imgUrl: function() {
+			return `background-image: url('${this.location}');`
 		},
 	},
   data () {

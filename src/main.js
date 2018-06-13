@@ -10,7 +10,7 @@ import io from 'socket.io-client';
 // Require the main Sass manifest file
 require('./assets/sass/main.scss');
 
-require('../node_modules/bulma-extensions/bulma-accordion/dist/bulma-accordion.min.js');
+require('../node_modules/vue-bulma-accordion/dist/vue-bulma-accordion.browser.js');
 
 Vue.config.productionTip = false
 Vue.use(Vuex);

@@ -6,40 +6,44 @@
       <div class="tile is-parent is-vertical">
         <article class="tile is-child is-primary">
 
-					<PhotoDetail :name="$route.params.name"></PhotoDetail>
+					<PhotoDetail :location="photo.location"></PhotoDetail>
 
         </article>
       </div>
       <div class="tile is-parent is-vertical">
         <article class="tile is-child is-primary">
-					<DetailTitle></DetailTitle>
+					<DetailTitle v-bind:title="photo.title" v-bind:description="photo.description" v-on:input="photo[$event.which] = $event.value"></DetailTitle>
         </article>
       </div>
     </div>
     <div class="tile is-parent">
       <article class="tile is-child is-danger">
         <div class="content">
-					<DetailKeywords></DetailKeywords>
+					<DetailKeywords v-bind:keywords="photo.keywords" v-on:input="photo.keywords = $event"></DetailKeywords>
         </div>
       </article>
     </div>
     <div class="tile">
       <div class="tile is-parent is-vertical">
         <article class="tile is-child is-primary">
-					<DetailCategories></DetailCategories>
+					<DetailCategories v-bind:category="photo.category" v-on:input="photo.category = $event" v-bind:availableCategories="availableCategories"></DetailCategories>
         </article>
         <article class="tile is-child is-primary">
-					<DetailAttachRelease></DetailAttachRelease>
+					<DetailAttachRelease v-bind:releaseForm="photo.releaseForm" v-on:input="photo.releaseForm = $event"></DetailAttachRelease>
         </article>
       </div>
       <div class="tile is-parent is-vertical">
         <article class="tile is-child is-primary">
-					<DetailAdditionalInfo></DetailAdditionalInfo>
+					<DetailAdditionalInfo
+						:photo="photo"
+						v-on:input="photo[$event.which] = $event.value"
+					></DetailAdditionalInfo>
         </article>
       </div>
     </div>
   </div>
   <div class="tile is-parent">
+
     <article class="tile is-child is-success">
       <div class="content">
         <div class="content">
@@ -47,7 +51,7 @@
         </div>
         
         <div class="content">
-          <a @click="savePhotoDetails" class="button "> Save </a>
+          <a @click="updatePhoto" class="button "> Save </a>
         </div>
         <div id="toast" ref="test" class="content">{{toast}}</div>
       </div>
@@ -59,6 +63,7 @@
 </template>
 
 <script>
+import { BulmaAccordion, BulmaAccordionItem } from 'vue-bulma-accordion'
 import PhotoDetail from '@/components/PhotoDetail'
 import DetailTitle from '@/components/DetailTitle'
 import DetailDescription from '@/components/DetailDescription'
@@ -69,62 +74,72 @@ import DetailAttachRelease from '@/components/DetailAttachRelease'
 import DetailAgencyStatus from '@/components/DetailAgencyStatus'
 import _ from 'lodash';
 import { filterObj } from '../utils';
+import { fetchPhoto, updatePhoto } from './../models/photos';
+
+// const fetchPhoto = (callback) => { return callback(null, {}); };
 
 export default {
   name: 'PhotoDetails',
-  components: { PhotoDetail, DetailTitle, DetailDescription, DetailKeywords, DetailCategories, DetailAdditionalInfo, DetailAttachRelease, DetailAgencyStatus },
+  components: { PhotoDetail, DetailTitle, DetailDescription, DetailKeywords, DetailCategories, DetailAdditionalInfo, DetailAttachRelease, DetailAgencyStatus, BulmaAccordion, BulmaAccordionItem },
   computed: {
+		titleDescription: function(){
+			const {title, description} = this.photo;
+			return {title, description}
+		},
+		releaseFormName: function(){
+			return releaseForm.name;
+		},
 	},
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App', 
-      toast: '',
-      saveLocked: false,
+			toast: null, 
+			photo: {
+				id: 1,
+				keywords: "one,two,three,four",
+				title: "Broccoli",
+				description: "Some good green stuff",
+				category: "category 3",
+				editorial: false,
+				illustration: true,
+				adult: false,
+				releaseForm: {name: "monopoly-pieces.key"},
+				releaseFormLocation: null,
+				location: '/stock/static/img/4.png',
+			}, 
+			availableCategories: [],
     }
   }, 
   sockets:{
-    disconnect: function(){
-      this.$store.commit('setFlags', {socketIoLoading: false, socketIoLoaded: false});
-    },
-    connect: function(){
-      if (this.$store.getters.flags.socketIoLoading || this.$store.getters.flags.socketIoLoaded) return;
-      
-      this.$store.commit('setFlags', {socketIoLoading: true});
-      console.log('socket connected')
-		  this.$socket.emit('join', {server: true});
-    },
-    joined: function(msg){
-      if (!this.$store.getters.flags.socketIoLoading) return;
-
-      this.$store.commit('setFlags', {socketIoLoading: false, socketIoLoaded: true});
-      console.log('>joined:', msg);
-    },
-    'fetch-data': function(payload){
-      if (!payload.client) return;
-      const data = filterObj(payload, ['client']);
-      console.log('>fetch-data:', payload);
-      this.$store.commit('setState', data);
-    },
-    'save-data': function(payload){
-      if (!payload.client) return;
-      const data = filterObj(payload, ['client']);
-      console.log('>save-data:', payload);
-      this.toast = "Photo was saved";
-      this.saveLocked = false;
-      setTimeout(() => { this.toast = ""; }, 2000);
-    },
+    // connect: function(){
+    //   console.log('socket connected')
+		//   this.$socket.emit('join', {server: true});
+    // },
+    // joined: function(msg){
+    //   console.log('>joined:', msg);
+    // },
   },
   methods: {
-    savePhotoDetails: function() {
-      if (this.saveLocked === false) {
-        this.saveLocked = true;
-        const data = this.$store.getters.state;
-        this.$socket.emit('save-data', {server: true, ...data});
-      }
-    },
+		updatePhoto: function() {
+			updatePhoto(this.photo.id, this.photo, (err) => {
+				if (err) return console.error("Unable to update photo details");
+
+				console.log("Successfully updated photo details", this.photo);
+
+				this.toast = "Successfully updated photo details";
+				setTimeout(() => { this.toast = ""; }, 3000);
+			});
+		},
   },
   mounted () {
-		this.$socket.emit('fetch-data', {server: true});
+		this.availableCategories = _.range(10).map(idx => { return `category ${idx}`; });
+
+		console.log("this.$route.params", this.$route.params.id);
+		fetchPhoto(this.$route.params.id, (err, photo) => {
+			if (err) return console.error("Unable to load photo details", err);
+
+			this.photo = photo;
+			console.log("Successfully loaded photo details", this.$route.params.id, photo);
+		});
   },
 }
 </script>

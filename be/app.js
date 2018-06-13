@@ -5,12 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
+const fileUpload = require('express-fileupload');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var photos = require('./routes/photos');
 
 var app = express();
 app.use(cors());
+app.use(fileUpload());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/photos', photos);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -41,8 +45,9 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
+	console.error("err", err.toString(), err);
   res.status(err.status || 500);
-  res.render('error');
+  res.json({ err });
 });
 
 module.exports = app;

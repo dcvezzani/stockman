@@ -8,17 +8,17 @@
 import { filterObj } from '../utils';
 
 export default {
-  props: [ 'name' ],
   name: 'Photo',
+  props: [ 'photo' ],
   computed: {
 		classNames() {
 			return ['photo', this.rotation];
 		},
 		imgUrl() {
-			return `background-image: url(${this.name});`
+			return `background-image: url('${this.photo.location}');`
 		},
 		routePhoto() {
-      return { name: 'PhotoDetails', params: { name: this.name }};
+      return { name: 'PhotoDetails', params: { id: this.photo.id }};
 		},
 	},
   data () {
