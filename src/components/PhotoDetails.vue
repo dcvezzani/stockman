@@ -135,6 +135,9 @@ export default {
 				if (err) return console.error("Unable to update photo details");
 
 				console.log("Successfully updated photo details", this.photo);
+
+				this.toast = "Successfully updated photo details";
+				setTimeout(() => { this.toast = ""; }, 3000);
 			});
 		},
   },
