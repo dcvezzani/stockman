@@ -4,7 +4,8 @@
     <!-- p class="counter">( {{counter}} )</p -->
 
     <div class="router-links">
-      <router-link to="/">StockMan</router-link> |
+      <router-link to="/">Home</router-link> |
+      <router-link to="/list">StockMan</router-link> |
       <router-link to="/details">PhotoDetails</router-link>
     </div>
 

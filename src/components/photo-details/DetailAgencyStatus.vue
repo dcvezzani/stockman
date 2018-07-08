@@ -26,8 +26,8 @@
 <script>
 import _ from 'lodash';
 import { BulmaAccordion, BulmaAccordionItem } from 'vue-bulma-accordion'
-import DetailAgencyStatusEntry from '@/components/DetailAgencyStatusEntry'
-import XSwitch from '@/components/XSwitch'
+import DetailAgencyStatusEntry from '@/components/photo-details/DetailAgencyStatusEntry'
+import XSwitch from '@/components/photo-details/XSwitch'
 
 export default {
   // props: [ 'name', 'label' ],

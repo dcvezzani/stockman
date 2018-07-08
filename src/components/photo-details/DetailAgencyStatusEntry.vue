@@ -19,7 +19,7 @@
 <script>
 // import _ from 'lodash';
 import { BulmaAccordionItem } from 'vue-bulma-accordion'
-import XSwitch from '@/components/XSwitch'
+import XSwitch from '@/components/photo-details/XSwitch'
 
 export default {
   props: [ 'name', 'label' ],

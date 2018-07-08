@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import PhotoDetails from '@/components/PhotoDetails'
-import StockMan from '@/components/StockMan'
+import Home from '@/components/home/Home'
+import PhotoDetails from '@/components/photo-details/PhotoDetails'
+import StockMan from '@/components/photo-list/StockMan'
 
 Vue.use(Router)
 
@@ -10,6 +11,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'Home',
+      component: Home
+    }, 
+    {
+      path: '/list',
       name: 'StockMan',
       component: StockMan
     }, 

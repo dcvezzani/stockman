@@ -64,17 +64,17 @@
 
 <script>
 import { BulmaAccordion, BulmaAccordionItem } from 'vue-bulma-accordion'
-import PhotoDetail from '@/components/PhotoDetail'
-import DetailTitle from '@/components/DetailTitle'
-import DetailDescription from '@/components/DetailDescription'
-import DetailKeywords from '@/components/DetailKeywords'
-import DetailCategories from '@/components/DetailCategories'
-import DetailAdditionalInfo from '@/components/DetailAdditionalInfo'
-import DetailAttachRelease from '@/components/DetailAttachRelease'
-import DetailAgencyStatus from '@/components/DetailAgencyStatus'
+import PhotoDetail from '@/components/photo-details/PhotoDetail'
+import DetailTitle from '@/components/photo-details/DetailTitle'
+import DetailDescription from '@/components/photo-details/DetailDescription'
+import DetailKeywords from '@/components/photo-details/DetailKeywords'
+import DetailCategories from '@/components/photo-details/DetailCategories'
+import DetailAdditionalInfo from '@/components/photo-details/DetailAdditionalInfo'
+import DetailAttachRelease from '@/components/photo-details/DetailAttachRelease'
+import DetailAgencyStatus from '@/components/photo-details/DetailAgencyStatus'
 import _ from 'lodash';
-import { filterObj } from '../utils';
-import { fetchPhoto, updatePhoto } from './../models/photos';
+import { filterObj } from './../../utils';
+import { fetchPhoto, updatePhoto } from './../../models/photos';
 
 // const fetchPhoto = (callback) => { return callback(null, {}); };
 

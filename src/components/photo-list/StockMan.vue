@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import Photo from '@/components/Photo'
-import { filterObj } from '../utils';
-import { fetchPhotos, } from './../models/photos';
+import Photo from '@/components/photo-list/Photo'
+import { filterObj } from './../../utils';
+import { fetchPhotos, } from './../../models/photos';
 
 export default {
   name: 'StockMan',

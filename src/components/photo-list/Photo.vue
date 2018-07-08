@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { filterObj } from '../utils';
+import { filterObj } from './../../utils';
 
 export default {
   name: 'Photo',
